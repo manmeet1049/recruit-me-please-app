@@ -3,7 +3,8 @@ import os
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv, find_dotenv
 
-ENV_FILE = find_dotenv(".dev.env" if os.getenv("MODE", "dev") == "dev" else ".prod.env")
+ENV_FILE = find_dotenv(".dev.env" if os.getenv(
+    "MODE", "dev") == "dev" else ".prod.env")
 
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -21,6 +22,7 @@ class AWSSettings(BaseSettings):
     region: str = os.getenv("AWS_REGION")
     endpoint_url: str = os.getenv("ENDPOINT_URL")
     s3_bucket: str = os.getenv("S3_BUCKET")
+
     class Config:
         extra = "allow"
 
