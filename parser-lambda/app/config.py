@@ -17,6 +17,7 @@ class DatabaseSettings(BaseSettings):
 
 class GeminiSettings(BaseSettings):
     api_key: str = os.getenv("GEMINI_API_KEY")
+    model_name: str = os.getenv("GEMINI_MODEL_NAME")
 
 
 class AWSSettings(BaseSettings):

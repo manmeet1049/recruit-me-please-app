@@ -22,7 +22,7 @@ class GeminiClient:
 
         self.prompt = prompt.format(text=extracted_text)
 
-        model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+        model = genai.GenerativeModel(model_name=f"models/{settings.gemini.model_name}")
         response = model.generate_content(self.prompt)
 
         if not response:
