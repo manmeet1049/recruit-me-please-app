@@ -18,6 +18,8 @@ def handler(event, context):
 
         return {"statusCode": 200, "body": "test"}
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return {"statusCode": 500, "body": str(e)}
 
 

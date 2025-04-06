@@ -3,6 +3,9 @@ import re
 import PyPDF2
 from docx import Document
 
+from clients import GeminiClient
+from prompts import RESUME_PROMPT
+
 
 # TODO: identify the file from the magic number instead of the extension.
 class ResumeParser:
@@ -13,13 +16,18 @@ class ResumeParser:
         """
         self.file_content = file_content
         self.filename = filename
+        self.gemini_client = GeminiClient()
 
     def get_parsed_content(self):
         parsed_data = self.__parse()
         self.resume_content = parsed_data.get("text")
         self.resume_links = parsed_data.get("links")
 
-        return parsed_data
+        gemini_response = self.gemini_client.call_gemini(
+            self.resume_content, self.resume_links, RESUME_PROMPT
+        )
+
+        return gemini_response
 
     def __parse(self):
         _, file_extension = self.filename.lower().rsplit(".", 1)

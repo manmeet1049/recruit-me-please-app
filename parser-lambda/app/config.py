@@ -15,6 +15,10 @@ class DatabaseSettings(BaseSettings):
     url: str = os.getenv("DATABASE_URL")
 
 
+class GeminiSettings(BaseSettings):
+    api_key: str = os.getenv("GEMINI_API_KEY")
+
+
 class AWSSettings(BaseSettings):
     access_key: str = os.getenv("AWS_ACCESS_KEY_ID")
     secret_key: str = os.getenv("AWS_SECRET_ACCESS_KEY")
@@ -32,6 +36,7 @@ class Settings(BaseSettings):
 
     database: DatabaseSettings = DatabaseSettings()
     aws: AWSSettings = AWSSettings()
+    gemini: GeminiSettings = GeminiSettings()
 
     class Config:
         env_file = ENV_FILE
