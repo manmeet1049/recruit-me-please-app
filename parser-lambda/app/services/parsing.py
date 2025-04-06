@@ -13,12 +13,13 @@ class ResumeParser:
         """
         self.file_content = file_content
         self.filename = filename
-        
+
+    def get_parsed_content(self):
         parsed_data = self.__parse()
         self.resume_content = parsed_data.get("text")
         self.resume_links = parsed_data.get("links")
 
-        print(self.resume_content, "\n\n", self.resume_links)
+        return parsed_data
 
     def __parse(self):
         _, file_extension = self.filename.lower().rsplit(".", 1)
