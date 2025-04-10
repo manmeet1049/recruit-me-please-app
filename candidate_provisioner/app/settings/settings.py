@@ -22,6 +22,7 @@ class AWSSettings(BaseSettings):
     region: str = os.getenv("AWS_REGION")
     endpoint_url: str = os.getenv("ENDPOINT_URL")
     s3_bucket: str = os.getenv("S3_BUCKET")
+    dynamo_table: str = os.getenv("DYNAMO_TABLE")
 
     class Config:
         extra = "allow"

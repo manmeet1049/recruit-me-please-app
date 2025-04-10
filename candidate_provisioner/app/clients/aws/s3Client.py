@@ -23,8 +23,8 @@ class S3Client:
     def generate_presigned_url(self, object_name, expiration=3600):
         """Generate a pre-signed URL for uploading a PDF file."""
         try:
-            if not object_name.lower().endswith(".pdf"):
-                raise ValueError("Only PDF files are allowed")
+            # if not object_name.lower().endswith(".pdf"):
+            #     raise ValueError("Only PDF files are allowed")
 
             response = self.s3_client.generate_presigned_url(
                 "put_object",
