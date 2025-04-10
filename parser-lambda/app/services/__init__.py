@@ -1,3 +1,3 @@
 from services.parsing import ResumeParser
-
-__all__ = ["ResumeParser"]
+from services.indexing import DocIndexer
+__all__ = ["ResumeParser","DocIndexer"]

@@ -4,3 +4,4 @@ pydantic-settings
 PyPDF2 
 python-docx
 google-generativeai
+marqo
