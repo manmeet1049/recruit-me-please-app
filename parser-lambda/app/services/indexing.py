@@ -1,12 +1,23 @@
+from clients import MarqoClient
+
+
 class DocIndexer:
     def __init__(self, index_name: str):
         self.index_name = index_name
+        self.marqo_client = MarqoClient(
+            url="http://localhost:8882",
+            index_name=index_name,
+            model="hf/all-MiniLM-L6-v2",
+            tensor_fields=["text"],
+        )
 
     def index_data(self, data: dict, uid: str):
         self.uid = uid
-        # print(f"Indexing data into {self.index_name}: {data}")
         docs = self.__prepare_docs(data)
         print(f"Prepared documents for indexing: {docs}")
+
+        marqo_res = self.marqo_client.index_documents(docs)
+        print(marqo_res)
 
     def __prepare_docs(self, user_doc):
         docs = []
