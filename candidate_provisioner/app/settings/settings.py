@@ -31,6 +31,7 @@ class AWSSettings(BaseSettings):
 class Settings(BaseSettings):
     mode: str = os.getenv("MODE", "dev")
     secret_key: str = os.getenv("SECRET_KEY")
+    api_keys: str = os.getenv("API_KEYS")
 
     database: DatabaseSettings = DatabaseSettings()
     aws: AWSSettings = AWSSettings()
