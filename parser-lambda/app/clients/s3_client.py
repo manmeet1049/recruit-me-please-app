@@ -9,7 +9,7 @@ from config import settings
 
 
 class S3Client:
-    def __init__(self, bucket_name):
+    def __init__(self):
         """Initialize the S3 client with the specified bucket name."""
         self.s3_client = boto3.client(
             "s3",
@@ -18,7 +18,7 @@ class S3Client:
             aws_secret_access_key=settings.aws.secret_key,
             endpoint_url=settings.aws.endpoint_url,
         )
-        self.bucket_name = bucket_name
+        self.bucket_name = settings.aws.s3_bucket
 
     def get_file_content(self, object_key: str):
         """Fetch and return the file content from the S3 bucket."""

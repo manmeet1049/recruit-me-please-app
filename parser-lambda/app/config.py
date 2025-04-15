@@ -25,7 +25,10 @@ class AWSSettings(BaseSettings):
     secret_key: str = os.getenv("AWS_SECRET_ACCESS_KEY")
     region: str = os.getenv("AWS_REGION")
     endpoint_url: str = os.getenv("ENDPOINT_URL")
+
     s3_bucket: str = os.getenv("S3_BUCKET")
+
+    dyanmo_table: str = os.getenv("DYNAMO_TABLE")
 
     class Config:
         extra = "allow"
