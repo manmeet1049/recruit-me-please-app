@@ -64,19 +64,49 @@ class DynamoClient:
         expiry = now + timedelta(days=30)
         s3_path = f"{email}/{file_name}"
 
-        item = {
-            "PK": f"USER#{email}",
-            "SK": f"RESUME#{file_name}",
-            "email": email,
-            "file_name": file_name,
-            "phone": phone,
-            "name": name,
-            "upload_date": now.isoformat(),
-            "expiry_date": expiry.isoformat(),
-            "s3_path": s3_path,
-            "status": status,
-        }
+        pk = f"USER#{email}"
+        sk = f"RESUME#{file_name}"
 
-        self.table.put_item(Item=item)
-        print(f"✅ Resume entry added for {email} - {file_name}")
-        return item
+        existing_item = self.table.get_item(Key={"PK": pk, "SK": sk}).get("Item")
+
+        if existing_item:
+            # Preserve created_at from existing item
+            created_at = existing_item["created_at"]
+            self.table.update_item(
+                Key={"PK": pk, "SK": sk},
+                UpdateExpression="""
+                    SET updated_at = :updated_at,
+                        expiry_date = :expiry_date,
+                        s3_path = :s3_path,
+                        phone = :phone,
+                        name = :name,
+                        status = :status
+                """,
+                ExpressionAttributeValues={
+                    ":updated_at": now.isoformat(),
+                    ":expiry_date": expiry.isoformat(),
+                    ":s3_path": s3_path,
+                    ":phone": phone,
+                    ":name": name,
+                    ":status": status,
+                },
+            )
+            print(f"🔄 Resume entry updated for {email} - {file_name}")
+            return {**existing_item, "updated_at": now.isoformat()}
+        else:
+            item = {
+                "PK": pk,
+                "SK": sk,
+                "email": email,
+                "file_name": file_name,
+                "phone": phone,
+                "name": name,
+                "created_at": now.isoformat(),
+                "updated_at": now.isoformat(),
+                "expiry_date": expiry.isoformat(),
+                "s3_path": s3_path,
+                "status": status,
+            }
+            self.table.put_item(Item=item)
+            print(f"✅ Resume entry added for {email} - {file_name}")
+            return item
